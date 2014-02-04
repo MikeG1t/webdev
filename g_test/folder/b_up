@@ -1,0 +1,51 @@
+import webapp2
+from encryp import encryp
+
+form="""
+<form action = "/" method = "get">
+  <label>
+    <b>ROT13</b>
+    <br><br>
+  <textarea cols = "50" rows = "8" name = "text">%(text)s</textarea>
+  <input type = 'submit'>  
+  </label>
+</form>
+"""
+def encryptn(s):
+  alph = 'aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ'    
+  LETTERS = len(alph)
+  
+  if s not in alph:
+    return s
+  if (alph.find(s)+26) >= LETTERS-1:
+    return alph[(alph.find(s)+26) - (LETTERS)]
+    
+  return alph[alph.find(s) + 26]
+
+def encryp(s):
+  a=""
+  for c in s:
+    a = a+encryptn(c)
+    
+  return a
+
+class MainPage(webapp2.RequestHandler):
+
+    def get(self):
+      a = ""
+      #self.response.headers['Content-Type'] = 'text/html'
+      self.response.out.write(form % {"text": a})
+
+class TestClass(webapp2.RequestHandler):
+  def post(self):
+    r = self.request.get("text")
+    h = encryp(r)
+
+    self.response.out.write(form % {"text": h})
+    
+
+        
+application = webapp2.WSGIApplication([
+    ('/', MainPage),
+    ('/testing', TestClass)
+], debug=True)

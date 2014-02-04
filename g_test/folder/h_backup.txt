@@ -1,0 +1,38 @@
+import webapp2
+
+form = '''
+<form method = "get" >
+  What is your Birthday
+  <br>
+  
+  <label>
+  Day
+  <input type = "text" name = "Day">
+  </label>
+  
+  <label>
+  Month
+  <input type = "text" name = "Month">
+  </label>
+  
+  <label>
+  Year
+  <input type = "text" name = "Year">
+  </label>
+  <br>
+  <br>
+  
+  <input type = "submit">
+  
+</form>
+'''
+
+class MainPage(webapp2.RequestHandler):
+
+    def get(self):
+        #self.response.headers['Content-Type'] = 'text/html'
+        self.response.write(form)
+
+application = webapp2.WSGIApplication([
+    ('/', MainPage),
+], debug=True)
